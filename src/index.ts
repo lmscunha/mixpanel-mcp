@@ -9,23 +9,22 @@ const server = new McpServer({
 
 const args = process.argv.slice(2);
 
-if (args.length === 0) {
+const SERVICE_ACCOUNT_USER_NAME =
+  process.env.SERVICE_ACCOUNT_USER_NAME || args[0];
+const SERVICE_ACCOUNT_PASSWORD =
+  process.env.SERVICE_ACCOUNT_PASSWORD || args[1];
+const DEFAULT_PROJECT_ID = process.env.DEFAULT_PROJECT_ID || args[2];
+
+if (
+  !SERVICE_ACCOUNT_USER_NAME ||
+  !SERVICE_ACCOUNT_PASSWORD ||
+  !DEFAULT_PROJECT_ID
+) {
   console.error(
     "Please provide a Mixpanel service account username and password and a project ID",
   );
   process.exit(1);
 }
-
-const SERVICE_ACCOUNT_USER_NAME =
-  process.env.SERVICE_ACCOUNT_USER_NAME ||
-  args[0] ||
-  "YOUR SERVICE ACCOUNT USERNAME";
-const SERVICE_ACCOUNT_PASSWORD =
-  process.env.SERVICE_ACCOUNT_PASSWORD ||
-  args[1] ||
-  "YOUR SERVICE ACCOUNT PASSWORD";
-const DEFAULT_PROJECT_ID =
-  process.env.DEFAULT_PROJECT_ID || args[2] || "YOUR PROJECT ID";
 
 server.tool(
   "get_today_top_events",
